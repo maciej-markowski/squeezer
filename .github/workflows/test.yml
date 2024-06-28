@@ -23,7 +23,8 @@ jobs:
           - stable-2.13
           - stable-2.14
           - stable-2.15
-          - devel
+          - stable-2.16
+          - stable-2.17
         include:
           - python: "3.6"
             ansible: "stable-2.11"
@@ -34,6 +35,10 @@ jobs:
             ansible: "devel"
             image_tag: "nightly"
             lower_bounds: true
+          - python: "3.12"
+            ansible:
+              - stable-2.16
+              - stable-2.17
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache@v4
