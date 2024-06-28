@@ -51,6 +51,12 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+      - name: Debug
+        run: |
+          which python
+          echo ${PATH}
+          ansible localhost -i tests/inventory/hosts -m command -a "echo $PATH"
+
       - name: Install Ansible
         run: pip install git+https://github.com/ansible/ansible.git@${{ matrix.ansible }}
       - name: Install dependencies
