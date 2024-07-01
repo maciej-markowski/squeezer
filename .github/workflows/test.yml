@@ -17,28 +17,16 @@ jobs:
       matrix:
         python:
           - "3.10"
+          - "3.11"
+          - "3.12"
         ansible:
-          - stable-2.11
-          - stable-2.12
-          - stable-2.13
-          - stable-2.14
-          - stable-2.15
           - stable-2.16
           - stable-2.17
         include:
-          - python: "3.6"
-            ansible: "stable-2.11"
-          - python: "3.7"
-            ansible: "stable-2.11"
-            image_tag: "latest"
-          - python: "3.11"
+          - python: "3.12"
             ansible: "devel"
             image_tag: "nightly"
             lower_bounds: true
-          - python: "3.12"
-            ansible: "stable-2.16"
-          - python: "3.12"
-            ansible: "stable-2.17"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache@v4
@@ -51,6 +39,12 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+      - name: debug
+        run: |
+          which python
+          echo ${PATH}
+          ansible localhost -vvv -i tests/inventory/hosts -m command -a "echo $PATH"
+
       - name: Install Ansible
         run: pip install git+https://github.com/ansible/ansible.git@${{ matrix.ansible }}
       - name: Install dependencies
